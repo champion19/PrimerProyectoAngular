@@ -1,3 +1,5 @@
+import { Card } from 'src/app/interfaces/card.interface';
+import { CardService } from './../../services/card.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListComponent implements OnInit {
 
-  constructor() { }
+  cards :Card[]=[];
+  constructor(private CardService:CardService) { }
 
   ngOnInit(): void {
+    this.CardService.getCards().subscribe((res)=>{
+      console.log(res);
+      this.cards=res;
+    });
   }
-
 }
