@@ -10,12 +10,21 @@ import { Component, OnInit } from '@angular/core';
 export class ListComponent implements OnInit {
 
   cards :Card[]=[];
+  offset=0;
   constructor(private CardService:CardService) { }
 
   ngOnInit(): void {
-    this.CardService.getCards().subscribe((res)=>{
-      console.log(res);
-      this.cards=res;
-    });
+    this.searchCards();
   }
+    onScroll() {
+    console.log("scrolled!!");
+    this.offset +=100 ;
+    this.searchCards();
+  }
+ searchCards(){
+  this.CardService.getCards(this.offset).subscribe((res)=>{
+      console.log(res);
+      this.cards=[...this.cards,...res];
+    });
+ }
 }
