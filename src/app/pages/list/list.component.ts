@@ -1,6 +1,8 @@
 import { Card } from 'src/app/interfaces/card.interface';
 import { CardService } from './../../services/card.service';
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list',
@@ -11,19 +13,28 @@ export class ListComponent implements OnInit {
 
   cards :Card[]=[];
   offset=0;
+
+  cardTextFC= new FormControl('');
   constructor(private CardService:CardService) { }
 
   ngOnInit(): void {
+    this.cardTextFC.valueChanges.pipe(
+      debounceTime(1000)//tiempo de espera
+    )
+    .subscribe((res)=>{
+      this.cards=[];
+      this.searchCards(res);
+    });
     this.searchCards();
   }
+
     onScroll() {
-    console.log("scrolled!!");
     this.offset +=100 ;
     this.searchCards();
   }
- searchCards(){
-  this.CardService.getCards(this.offset).subscribe((res)=>{
-      console.log(res);
+
+ searchCards(cardName: string | null = null){
+  this.CardService.getCards(cardName,this.offset).subscribe((res)=>{
       this.cards=[...this.cards,...res];
     });
  }
