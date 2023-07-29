@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpClientModule } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Card } from '../interfaces/card.interface';
 import { map } from 'rxjs/operators';
@@ -19,6 +19,11 @@ export class CardService {
     if(name)params.fname=name;
     return this.http.get<Card[]>(this.API_URL,{params})
     .pipe(map((res:any)=> res.data)
-    )
+    );
+  }
+  getCard(id : string ){
+   const params={id};
+   return this.http.get(this.API_URL,{params}).pipe(
+    map((res:any) => res.data[0]));
   }
 }

@@ -9,13 +9,15 @@ import { DetailComponent } from './pages/detail/detail.component';
 import { HttpClientModule} from '@angular/common/http';
 import {ReactiveFormsModule} from '@angular/forms';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { MarketNamePipe } from './pipes/market-name.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     CardComponent,
     ListComponent,
-    DetailComponent],
+    DetailComponent,
+    MarketNamePipe],
   imports: [BrowserModule,
      AppRoutingModule,
      HttpClientModule,
